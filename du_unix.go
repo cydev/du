@@ -6,13 +6,13 @@ import (
 	"syscall"
 )
 
-func getUsage(path string) (Info, error)  {
+func getUsage(path string) (Info, error) {
 	var stat syscall.Statfs_t
 	err := syscall.Statfs(path, &stat)
 	i := Info{
-		Total: stat.Bsize * stat.Blocks,
-		Available: stat.Bsize * stat.Blocks,
-		Free: stat.Bfree * stat.Blocks,
+		Total:     stat.Bsize * int64(stat.Blocks),
+		Available: stat.Bsize * int64(stat.Bavail),
+		Free:      stat.Bsize * int64(stat.Bfree),
 	}
 	return i, err
 }
